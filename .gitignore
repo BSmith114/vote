@@ -1,0 +1,4 @@
+site/node_modules/
+.vscode/
+site/public/libs/
+site/public/js/assets
