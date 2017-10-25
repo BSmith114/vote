@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 from sqlalchemy import create_engine
 
 # create sql alchemy engine
-engine = create_engine('postgresql://appservice:specials@localhost/vote')
+engine = create_engine('postgresql://appservice:password@localhost/vote')
 con = engine.connect()
 
 # sets sql queries as strings
