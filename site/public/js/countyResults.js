@@ -1,20 +1,14 @@
 function getElections() {
-    var xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var elections = JSON.parse(xhr.responseText);
-            var el = document.getElementById("elections")
-            for (var i = 0; i < elections.length; i ++) {
-                var option = document.createElement("option");
-                var node = document.createTextNode(elections[i]);
-                option.appendChild(node);
-                el.appendChild(option);                              
-            }
-        }
-    };
-    xhr.open("GET", "/api/get-elections", true);
-    xhr.send();        
-}; 
+    $('#elections').empty()
+    $.get('/api/get-elections', function(data) {
+        data.forEach(function(year) {
+            $('#elections').append(
+                $('<option>')
+                    .text(year)
+            )
+        })
+    })
+}
 
 function getStates() {
     var xhr = new XMLHttpRequest()

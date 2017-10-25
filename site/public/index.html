@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>B. Smith Data Vizs</title>
-
-    <!-- Bootstrap Core CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css"
-    <!-- Custom CSS -->
-    <style>
-    body {
-        padding-top: 70px;
-        /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
-    }
+    
+    <head>
+        
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        
+        <title>B. Smith Data Vizs</title>
+        
+        <!-- Bootstrap Core CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+        <link rel="stylesheet" href="css/style.css" <!-- Custom CSS -->
+        <style>
+        body {
+            padding-top: 70px;
+            /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+        }
     </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
 
@@ -65,15 +66,15 @@
             <div class="col-lg-3 text-center">
                 <h2>Election Year</h2>
                 <select class="form-control input-sm" id="elections"></select>
-                <h2>Pick a state</h2>                            
+                <h2>Pick a state</h2>
                 <select class="form-control input-sm" id="states"></select>
                 <h2>Pick a county</h2>
                 <select class="form-control input-sm" id="counties">
-                    
-                </select>                                          
+
+                </select>
             </div>
             <div class="col-lg-9 text-center" id="chart">
-                
+
                 <!--<p class="lead chart"></p>-->
             </div>
         </div>
@@ -83,11 +84,11 @@
     <!-- /.container -->
 
     </div>
-    
+
     <script src="//d3js.org/d3.v3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <!--<script src="js/chart.js"></script>-->
-    <script src="js/countyResults.js"></script>   
-    <script src="js/render.js"></script>    
+    <script src="js/countyResults.js"></script>
+    <script src="js/render.js"></script>
 </body>
+
 </html>
