@@ -1,65 +1,44 @@
 function getElections() {
-    $('#elections').empty()
+    let elections = $('#elections')
+    elections.empty()
     $.get('/api/get-elections', function(data) {
         data.forEach(function(year) {
-            $('#elections').append(
-                $('<option>')
-                    .text(year)
-            )
+            elections.append($('<option>').text(year))
+        })
+    })
+}  
+
+function getStates() {
+    let states = $('#states')
+    states.empty()
+    $.get('/api/get-states', function(data) {
+        data.forEach(function(state) {
+            states.append($('<option>').text(state))
+        })
+        getCounties()
+    })
+}
+
+function getCounties() {
+    let stateSel = $('#states')
+    let counties = $('#counties')
+    let state = $('#states option:selected').text()
+    counties.empty()
+    $.get('/api/get-counties?state=' + encodeURI(state), function(data) {
+        data.forEach(function(county) {
+            counties.append($('<option>').text(county[1]))
         })
     })
 }
 
-function getStates() {
-    var xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var states = JSON.parse(xhr.responseText);
-            var el = document.getElementById("states")
-            for (var i = 0; i < states.length; i ++) {
-                var option = document.createElement("option");
-                var node = document.createTextNode(states[i]);
-                option.appendChild(node);
-                el.appendChild(option);                                  
-            }
-            getCounties()
-        }
-    };
-    xhr.open("GET", "/api/get-states", true);
-    xhr.send();        
-};    
-
-function getCounties() {        
-    var stateSel = document.getElementById("states")
-    var state = stateSel.options[stateSel.selectedIndex].text;
-    while (counties.hasChildNodes()) {
-        counties.removeChild(counties.lastChild)
-    }
-    var xhr = new XMLHttpRequest()
-    xhr.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var countiesEl = document.getElementById("counties");
-            var counties = JSON.parse(xhr.responseText);
-            for (var i = 0; i < counties.length; i++) {
-                var option = document.createElement("option");
-                var node = document.createTextNode(counties[i][1]);
-                option.appendChild(node);
-                countiesEl.appendChild(option);
-            }            
-        }
-    }
-    xhr.open("GET", "/api/get-counties?state=" + encodeURI(state), true);
-    xhr.send();
-};
-
-function getCountyResultsByState() {
+function getCountyResultsByStates() {
     var stateSel = document.getElementById("states");
     var state = stateSel.options[stateSel.selectedIndex].text;
 
     var electionsSel = document.getElementById("elections");
     var election = electionsSel.options[electionsSel.selectedIndex].text;
-    while (chart.hasChildNodes()) {
-        chart.removeChild(chart.lastChild)
+    while (tbl.hasChildNodes()) {
+        tbl.removeChild(tbl.lastChild)
     }
     var xhr = new XMLHttpRequest()
     var url = "/api/get-state-results-by-county";
@@ -69,7 +48,7 @@ function getCountyResultsByState() {
             headerData = ['County', 'Democrat', 'Republican', 'Other']
 
             /* Creates table */
-            tableDiv = document.getElementById('chart');
+            tableDiv = document.getElementById('tbl');
             tbl = document.createElement("table");
             tbl.setAttribute('class', 'table table-condensed');
 
@@ -122,3 +101,32 @@ function getCountyResultsByState() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
     xhr.send(params)
 };
+
+function getCountyResultsByState() {
+    // get values from selections for params
+    let election = $('#elections option:selected').text()
+    let state = $('#states option:selected').text()
+    
+    // load html results table snippet 
+    $('#tbl').load('/snippets/results-table.html')
+
+    // empties the table 
+    let tbl = $('#results-table > tbody')
+    tbl.empty()
+
+    // posts data
+    $.post('/api/get-state-results-by-county', {state: state, election: election}, function(data) {
+        data.forEach(function(result) {
+            let row = $('<tr>')
+                .append($('<td>').text(result.county))
+                .append($('<td>').text(parseInt(result.dem).toLocaleString()))
+                .append($('<td>').text(parseInt(result.rep).toLocaleString()))
+                .append($('<td>').text(parseInt(result.other).toLocaleString()))
+                .append($('<td>').text(result.dem_per))
+                .append($('<td>').text(result.rep_per))
+                .append($('<td>').text(result.oth_per))
+            $('#results-table > tbody').append(row)
+        })
+    })
+}
+
