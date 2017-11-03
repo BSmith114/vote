@@ -1,26 +1,17 @@
-﻿--DROP FUNCTION ufn_get_state_results(text, int);
---SELECT * FROM ufn_get_state_results('Minnesota', 2016)
-CREATE OR REPLACE FUNCTION ufn_get_state_results(state TEXT, election INT)
+﻿--DROP FUNCTION ufn_get_state_results(int);
+--SELECT * FROM ufn_get_state_results(2016)
+CREATE OR REPLACE FUNCTION ufn_get_state_results(election INT)
 	RETURNS TABLE (
-		county TEXT,
+		state TEXT,
 		dem NUMERIC,
 		rep NUMERIC,
 		other NUMERIC,
-		dem_percent NUMERIC(5,3),
-		rep_percent NUMERIC(5,3),
-		oth_percent NUMERIC(5,3)
+		dem_percent NUMERIC(3,1),
+		rep_percent NUMERIC(3,1),
+		oth_percent NUMERIC(3,1)
 	)
 AS $$
-DECLARE
-	vote_total INT;
 BEGIN
-
-	vote_total := SUM(v.total)
-	FROM 
-		vw_pres_vote_shift v
-	WHERE
-		v.state = $1
-		AND v.election = $2;
 
 	RETURN QUERY 
 	SELECT
@@ -28,16 +19,16 @@ BEGIN
 		,SUM(v.dem)
 		,SUM(v.rep)
 		,SUM(v.other)
-		,((SUM(v.dem) / vote_total) * 100)::NUMERIC(5,3)
-		,((SUM(v.rep) / vote_total) * 100)::NUMERIC(5,3)
-		,((SUM(v.other) / vote_total) * 100)::NUMERIC(5,3) 	
+		,((SUM(v.dem) / (SUM(v.dem) + SUM(v.rep) + SUM(v.other))) * 100)::NUMERIC(3,1)
+		,((SUM(v.rep) / (SUM(v.dem) + SUM(v.rep) + SUM(v.other))) * 100)::NUMERIC(3,1)
+		,((SUM(v.other) / (SUM(v.dem) + SUM(v.rep) + SUM(v.other))) * 100)::NUMERIC(3,1)
 	FROM
 		vw_pres_vote_shift v
 	WHERE
-		v.state = $1
-		and v.election = $2
+		v.election = $1
 	GROUP BY
+		v.state
+	ORDER BY
 		v.state;
-	
 END; $$
 LANGUAGE 'plpgsql';

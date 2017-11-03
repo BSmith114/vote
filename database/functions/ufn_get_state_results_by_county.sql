@@ -18,15 +18,15 @@ BEGIN
 		,v.dem
 		,v.rep
 		,v.other
-		,(v.dem_percent * 100)::NUMERIC(5,3)
-		,(v.rep_percent * 100)::NUMERIC(5,3)
-		,(v.oth_percent * 100)::NUMERIC(5,3)
+		,(v.dem_percent * 100)::NUMERIC(3,1)
+		,(v.rep_percent * 100)::NUMERIC(3,1)
+		,(v.oth_percent * 100)::NUMERIC(3,1)
 	FROM
 		vw_pres_vote_shift v
 	WHERE
 		v.state = $1
 		and v.election = $2
 	ORDER BY
-		dem_margin DESC;
+		v.county;
 END; $$
 LANGUAGE 'plpgsql';

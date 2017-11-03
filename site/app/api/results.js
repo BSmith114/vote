@@ -62,6 +62,22 @@ module.exports = {
 			})			
 		})
 	},
+	getResultsbyState: function(req, res, next) {
+		pool.connect(function(err, client, done) {
+			if(err){
+				console.log("Error: " + err);
+				res.status(400).send(err);
+			}
+			client.query("SELECT * FROM ufn_get_state_results($1::INT)", [req.body.election], function(err, result) {
+				done(err)
+				if(err) {
+					console.log(err);
+					res.status(400).send(err);
+				}
+				res.status(200).send(result.rows);
+			})
+		})
+	},	
 	getStateResultsbyCounty: function(req, res, next) {
 		pool.connect(function(err, client, done) {
 			if(err){

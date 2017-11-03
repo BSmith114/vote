@@ -13,6 +13,9 @@ router.route('/api/get-states')
 router.route('/api/get-counties')
 	.get(api.getCounties)
 
+router.route('/api/get-results-by-state')
+	.post(api.getResultsbyState)
+
 router.route('/api/get-state-results-by-county')
 	.post(api.getStateResultsbyCounty)
 

@@ -25,9 +25,9 @@ BEGIN
 		SUM(v.dem)
 		,SUM(v.rep)
 		,SUM(v.other)
-		,((SUM(v.dem) / vote_total) * 100)::NUMERIC(5,3)
-		,((SUM(v.rep) / vote_total) * 100)::NUMERIC(5,3)
-		,((SUM(v.other) / vote_total) * 100)::NUMERIC(5,3) 	
+		,((SUM(v.dem) / vote_total) * 100)::NUMERIC(3,1)
+		,((SUM(v.rep) / vote_total) * 100)::NUMERIC(3,1)
+		,((SUM(v.other) / vote_total) * 100)::NUMERIC(3,1) 	
 	FROM
 		vw_pres_vote_shift v
 	WHERE
