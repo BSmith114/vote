@@ -24,7 +24,7 @@ router.route('/api/get-county-results')
 
 /* Website Routes */
 router.get('*', function(req, res) {
-	res.sendfile('./public/index.html')
+	res.sendfile('./index.html')
 });
 
 module.exports = router;

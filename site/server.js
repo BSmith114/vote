@@ -18,8 +18,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); 
 app.use(bodyParser.urlencoded({ extended: false })); 
 
-
-
 // routes 
 app.use(routes); 
 

@@ -20,7 +20,7 @@ with open('queries/demographics.sql', encoding='utf-8-sig') as f:
 
 # merge all tables
 election = pd.merge(election, demographics, left_index=True, right_index=True)
-migration = pd.read_csv('migration.csv', index_col='fips')
+migration = pd.read_csv('data/migration.csv', index_col='fips')
 election = election.merge(migration, right_index=True, left_index=True)
 
 # close sql connection
