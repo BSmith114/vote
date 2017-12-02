@@ -35,7 +35,7 @@ population['fips'] = pd.to_numeric(population['fips'])
 population.set_index('fips', inplace=True)
 
 # calculate estimated turnout rate
-cvap = population[population['LNNUMBER'] == 1] # 1 is for all demographics 
+cvap = population[population['LNNUMBER'] == 1] # 1 is for all demographics
 cvap.rename(columns={'CVAP_EST': 'cvap'}, inplace=True)
 vote['turnout'] = vote['total'] / cvap['cvap']
 
@@ -56,6 +56,7 @@ population = pd.read_csv('data/population.csv', index_col='fips')
 area = pd.read_csv('data/area.csv')
 area.set_index('fips', inplace=True)
 vote['pop_density'] = population['2016'] / area.area
+
 
 def vote_scatter(df, state):
     state_df = df[df['state'] == state]
