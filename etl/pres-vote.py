@@ -1,11 +1,14 @@
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# etl for raw csv pres-vote
+# etl for raw csv presidential_vote.csv
+
+
 # read source csv
-vote = pd.read_csv('data/pres-vote.csv')
+vote = pd.read_csv(os.path.join('..','raw-data','presidential_vote.csv'))
 
 # clean up party to only democrat, repubican and other
 vote.party = vote.party.str.replace('.*democrat.*', 'democrat', case=False)
@@ -25,7 +28,7 @@ vote = pd.concat(dfs)
 vote.reset_index(inplace=True)
 
 # create fips for county, state names
-fips = pd.read_csv('data/fips.csv')
+fips = pd.read_csv(os.path.join('..', 'raw-data', 'fips.csv'))
 vote = vote.merge(fips, on='fips')
 
 # re-orders and sorts
@@ -44,7 +47,7 @@ vote[['democrat','republican','other', 'total']] = vote[['democrat','republican'
 # calculates vote percent
 vote = vote.join(vote[['democrat', 'republican', 'other']].div(vote.total, axis=0), rsuffix='_percent')
 
-# sets previous year differene by fips
+# sets previous year difference by fips
 vote = vote.join(vote[['fips','democrat', 'republican', 'other', 'total']].groupby(['fips']).diff(), rsuffix='_diff').fillna(0)
 vote = vote.join(vote[['fips','democrat_percent', 'republican_percent', 'other_percent']].groupby(['fips']).diff(), rsuffix='_diff').fillna(0)
 vote[['democrat_diff', 'other_diff', 'republican_diff', 'total_diff']] = vote[['democrat_diff', 'other_diff', 'republican_diff', 'total_diff']].astype(int)
