@@ -1,5 +1,5 @@
 create table presidential_vote (    
-    id serial
+    id serial primary key
     ,fips integer references fips (fips)
     ,election integer
     ,candidate text 
