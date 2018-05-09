@@ -4,8 +4,12 @@ import pandas as pd
 
 # etl for raw csv presidential_vote.csv to create vote.csv
 
+# sets file path
+raw_data_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..','raw-data'))
+
 # read source csv
-vote = pd.read_csv(os.path.join('..','raw-data','presidential_vote.csv'))
+vote = pd.read_csv(os.path.join(raw_data_path, 'presidential_vote.csv'))
+
 
 # clean up party to only democrat, repubican and other
 vote.party = vote.party.str.replace('.*democrat.*', 'democrat', case=False)
@@ -25,7 +29,7 @@ vote = pd.concat(dfs)
 vote.reset_index(inplace=True)
 
 # create fips for county, state names
-fips = pd.read_csv(os.path.join('..', 'raw-data', 'fips.csv'))
+fips = pd.read_csv(os.path.join(raw_data_path, 'fips.csv'))
 vote = vote.merge(fips, on='fips')
 
 # re-orders and sorts
