@@ -59,3 +59,6 @@ vote['democrat_margin_diff'] = vote[['fips', 'democrat_margin']].groupby('fips')
 
 vote['democrat_margin_percent'] = vote.democrat_percent - vote.republican_percent 
 vote['democrat_margin_percent_diff'] = vote[['fips', 'democrat_margin_percent']].groupby('fips').diff().fillna(0) 
+vote['democrat_win'] = vote['democrat'] > vote['republican'] 
+
+vote.to_csv('../data/vote.csv', index=False)

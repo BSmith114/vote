@@ -1,7 +1,6 @@
 import os
 import numpy as np 
 import pandas as pd 
-import vote
 
 '''
 cleans up raw cvap file from census for elections
@@ -36,6 +35,7 @@ cvap = pd.concat(dfs)
 
 # resets index
 cvap.reset_index(inplace=True)
+cvap.drop('index', inplace=True, axis=1)
 
 # adds turnout change for 2016
 
